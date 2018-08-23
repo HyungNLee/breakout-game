@@ -18,6 +18,15 @@
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
 
+      //variables to define paddle properties
+      var paddleHeight = 10;
+      var paddleWidth = 75;
+      var paddleX = (canvas.width - paddleWidth)/2;
+
+      //function to store information on whether the left or right control buttons are pressed.
+      var rightPressed = false;
+      var leftPressed = false;
+
       //x and y variable for the starting position of our circle
       var x = canvas.width/2;
       var y = canvas.height-30;
@@ -39,10 +48,20 @@
         ctx.closePath();
       }
 
+      //function to draw paddle
+      function drawPaddle() {
+        ctx.beginPath();
+        ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+      }
+
       //function to clear rectangle to remove any prevous balls and update object position to simulate movement.
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBall();
+        drawPaddle();
 
         //If statements to change direction of ball when it hits the edge of canvas.
         //Remember that coordinates start at top left. 0 is top and left.
@@ -56,7 +75,39 @@
         }
         x += dx;
         y += dy;
+
+        //if statements to move the paddle depending on keypress.
+        if (rightPressed && paddleX < canvas.width - paddleWidth) {
+          paddleX += 7;
+        } else if (leftPressed && paddleX > 0) {
+          paddleX -= 7;
+        }
       }
+
+      //event listeners. When the 'keydown' event is fired, 'keyDownHandler()'
+      //function will be executed. Same with 'keyup' and 'keyUpHandler()'
+      document.addEventListener("keydown", keyDownHandler, false);
+      document.addEventListener("keyup", keyUpHandler, false);
+
+      //functions that take events are parameters. keycode 37 is left cursor,
+      // 39 is right cursor. When left is pressed, leftPressed is set to true.
+      //Same for right cursor and rightPressed.
+      function keyDownHandler(e) {
+        if (e.keyCode == 39) {
+          rightPressed = true;
+        } else if (e.keyCode == 37) {
+          leftPressed = true;
+        }
+      }
+
+      function keyUpHandler(e) {
+        if (e.keyCode == 39) {
+          rightPressed = false;
+        } else if (e.keyCode == 37) {
+          leftPressed = false;
+        }
+      }
+
       //setInterval will run every 10 milliseconds infinitely until we stop it.
       setInterval(draw, 10);
     </script>
