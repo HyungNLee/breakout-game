@@ -70,9 +70,20 @@
           dx = -dx;
         }
 
-        if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+        if (y + dy < ballRadius) {
           dy = -dy;
+        } else if (y + dy > canvas.height-ballRadius) {
+          //paddleX is left starting point of paddle.
+          //paddleX + paddleWidth is right end point of paddle.
+          if (x > paddleX && x < paddleX + paddleWidth) {
+            dy = -dy;
+          } else {
+            alert("GAME OVER");
+            document.location.reload();
+          }
         }
+
+        //adding dy and dx to y and x to slightly change position of ball on next draw.
         x += dx;
         y += dy;
 
