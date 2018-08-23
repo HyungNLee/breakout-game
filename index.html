@@ -144,6 +144,17 @@
       document.addEventListener("keydown", keyDownHandler, false);
       document.addEventListener("keyup", keyUpHandler, false);
 
+      //event listener for mouse movement.
+      document.addEventListener("mousemove", mouseMoveHandler, false);
+
+      //function to update paddle position based on pointer coordinates AKA mouse
+      function mouseMoveHandler(e) {
+        var relativeX = e.clientX - canvas.offsetLeft;
+        if (relativeX > 0 && relativeX < canvas.width) {
+          paddleX = relativeX - paddleWidth/2;
+        }
+      }
+
       //functions that take events are parameters. keycode 37 is left cursor,
       // 39 is right cursor. When left is pressed, leftPressed is set to true.
       //Same for right cursor and rightPressed.
