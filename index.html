@@ -14,7 +14,7 @@
 
     <script>
       //JavaScript code goes here
-        //Grab a reference to <canvas> element to render graphics.
+      //Grab a reference to <canvas> element to render graphics.
       var canvas = document.getElementById("myCanvas");
       var ctx = canvas.getContext("2d");
 
@@ -27,10 +27,13 @@
       var dx = 2;
       var dy = -2;
 
+      //variable for radius of drawn circle
+      var ballRadius = 10;
+
       //function to draw ball
       function drawBall() {
         ctx.beginPath();
-        ctx.arc(x, y, 10, 0, Math.PI*2);
+        ctx.arc(x, y, ballRadius, 0, Math.PI*2);
         ctx.fillStyle = "#0095DD";
         ctx.fill();
         ctx.closePath();
@@ -40,6 +43,17 @@
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBall();
+
+        //If statements to change direction of ball when it hits the edge of canvas.
+        //Remember that coordinates start at top left. 0 is top and left.
+        //Canvas.width is right side, canvas.height is bottom side.
+        if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+          dx = -dx;
+        }
+
+        if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+          dy = -dy;
+        }
         x += dx;
         y += dy;
       }
