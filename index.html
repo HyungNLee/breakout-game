@@ -39,6 +39,25 @@
       //variable for radius of drawn circle
       var ballRadius = 10;
 
+      //variables for breakable bricks
+      var brickRowCount = 3;
+      var brickColumnCount = 5;
+      var brickWidth = 75;
+      var brickHeight = 20;
+      var brickPadding = 10;
+      var brickOffsetTop = 30;
+      var brickOffsetLeft = 30;
+
+      //Nested loop to make a two-dimensional array to contain bricks.
+      //c is brick columns, r is brick rows
+      var bricks = [];
+      for (var c = 0; c < brickColumnCount; c++) {
+        bricks[c] = [];
+        for (var r = 0; r < brickRowCount; r++) {
+          bricks[c][r] = { x: 0, y: 0 };
+        }
+      }
+
       //function to draw ball
       function drawBall() {
         ctx.beginPath();
@@ -57,9 +76,27 @@
         ctx.closePath();
       }
 
+      //function to draw brinks on Canvas
+      function drawBricks() {
+        for (var c = 0; c < brickColumnCount; c++) {
+          for (var r = 0; r < brickRowCount; r++) {
+            var brickX = (c*(brickWidth + brickPadding)) + brickOffsetLeft;
+            var brickY = (r*(brickHeight + brickPadding)) + brickOffsetTop;
+            bricks[c][r].x = brickX;
+            bricks[c][r].y = brickY;
+            ctx.beginPath();
+            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+            ctx.fillstyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+          }
+        }
+      }
+
       //function to clear rectangle to remove any prevous balls and update object position to simulate movement.
       function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBricks();
         drawBall();
         drawPaddle();
 
